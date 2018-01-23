@@ -1,0 +1,106 @@
+#define ZERO FF 00
+#define LAST FF FF
+
+FF
+00
+FF
+00
+address0:
+next*0
+address1:
+next*1
+
+next:
+
+[move] input_A* shifted_1*
+[leftshift] shifted_1*
+[move] shifted_1* shifted_2*
+[leftshift] shifted_2*
+[move] shifted_2* shifted_3*
+[leftshift] shifted_3*
+
+[branch_compare] const_7* input_B* bit_check3*
+
+[inc] shifted_3* output*
+const_8* input_B*
+
+bit_check3:
+[branch_compare] const_3* input_B* bit_check2*
+
+[inc] shifted_2* output*
+const_4* input_B*
+
+bit_check2:
+[branch_compare] const_1* input_B* bit_check1*
+
+[inc] shifted_1* output*
+const_2* input_B*
+
+bit_check1:
+[clear] ZERO
+ZERO input_B* halt*
+
+add1:
+[inc] input_A* output*
+
+halt:
+[jump] halt*
+
+input_A:
+0A
+input_B:
+07
+output:
+00
+const_8:
+08
+const_7:
+07
+const_4:
+04
+const_3:
+03
+const_2:
+02
+const_1:
+01
+shifted_1:
+00
+shifted_2:
+00
+shifted_3:
+00
+
+#inline
+
+clear addr{
+addr addr
+}
+
+move addr addr2{
+[clear] LAST
+[clear] addr2
+addr LAST
+LAST addr2
+}
+
+jump addr{
+ZERO ZERO addr
+}
+
+inc addr addr2{
+[clear] ZERO
+addr ZERO
+ZERO addr2
+}
+
+leftshift addr{
+[clear] ZERO
+addr ZERO
+ZERO addr
+}
+
+branch_compare addr addr2 addr3{
+[move] addr2 ZERO
+addr ZERO addr3
+}

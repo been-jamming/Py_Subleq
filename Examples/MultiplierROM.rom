@@ -1,0 +1,248 @@
+v2.0 raw
+#Multiplication program
+
+#Copy -*AAAA to FF01
+
+00#*AA
+CC#*AA
+FF
+00
+00
+06
+FF
+00
+FF
+01
+00
+0C
+FF
+00
+FF
+00
+00
+12
+#Let *BBBB be the other factor#Make bit-shifted copies of *BBBB stored at FF02
+00#*BB
+CD#*BB
+FF
+00
+00
+18
+00#*BB
+CD#*BB
+FF
+00
+00
+1E
+FF
+00
+FF
+02
+00
+24
+FF
+02
+FF
+00
+00
+2A
+FF
+03
+FF
+00
+00
+30
+FF
+03
+FF
+00
+00
+36
+FF
+00
+FF
+04
+00
+3C
+#Clear FF00
+FF
+00
+FF
+00
+00
+42
+#Subtract 0b0111 from FF01 (Where *AAAA is stored); Subtraction is greater than 0 if and only if the 4th bit of FF01 is 1.
+00#*0b0111
+D0#*
+FF
+01
+00
+60#Restores FF01
+#Since the 4th bit is in fact set, set that bit to 0 by subtracting 1 more
+00#*0b0001
+CF#*
+FF
+01
+00
+4E
+#Add *BBBB shifted to the left 3 to the result (*CCCC)
+FF
+04
+FF
+00
+00
+54
+FF
+00
+00#*CCCC
+CE#*
+00
+5A
+FF
+00
+FF
+00
+00#*Next bit check
+66#*
+#Restore FF01 by adding 0b0111 back to it
+00#*0b11111001
+D1#*
+FF
+01
+00
+66
+#Subtract 0b0011 from FF01 (Where *AAAA is stored); Subtraction is greater than 0 if and only if the 3rd bit of FF01 is 1.
+00#*0b0011
+D2#*
+FF
+01
+00
+84#Restores FF01
+#Since the 3rd bit is in fact set, set that bit to 0 by subtracting 1 more
+00#*0b0001
+CF#*
+FF
+01
+00
+72
+#Add *BBBB shifted to the left 2 to the result (*CCCC)
+FF
+03
+FF
+00
+00
+78
+FF
+00
+00#*CCCC
+CE#*
+00
+7E
+FF
+00
+FF
+00
+00#*Next bit check
+8A#*
+#Restore FF01 by adding 0b0011 back to it
+00#*0b11111101
+D3#*
+FF
+01
+00
+8A
+#Subtract 0b0001 from FF01 (Where *AAAA is stored); Subtraction is greater than 0 if and only if the 2nd bit of FF01 is 1.
+00#*0b00000001
+CF#*
+FF
+01
+00#*Restore FF01
+A8#*
+
+#Since the 2nd bit is set, set it equal to 0 by subtracting 1 more
+
+00#*0b00000001
+CF#*
+FF
+01
+00
+96
+
+#Add *BBBB shifted to the left 1 to *CCCC
+
+FF
+02
+FF
+00
+00
+9C
+
+FF
+00
+00#*CCCC
+CE#*
+00
+A2
+
+FF
+00
+FF
+00
+00
+AE#*Next bit check
+
+#Restore FF01 by adding 0b0001 back to it
+
+00#*0b11111111
+D4#*
+FF
+01
+00
+AE
+
+#Check if the 1s bit is set
+
+FF
+01
+FF
+FF
+00
+B4
+
+FF
+FF
+FF
+FE
+00
+C6#Skip last add and halt
+
+00#*BBBB
+CD#*
+FF
+00
+00
+C0
+
+FF
+00
+00#*CCCC
+CE#*
+00
+C6
+
+FF
+00
+FF
+00
+00
+C6#Halt the processor (infinite loop)
+
+05#00CC - *AAAA (first factor)
+06#00CD - *BBBB (second factor)
+00#00CE - *CCCC (answer)
+01#00CF - 0b0001
+07#00D0 - 0b0111
+F9#00D1 - 0b11111001
+03#00D2 - 0b0011
+FD#00D3 - 0b11111101
+FF#00D4 - 0b11111111
