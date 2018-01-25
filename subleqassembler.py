@@ -62,7 +62,7 @@ def process_labels(lines):
 		if lines[current_line] == "":
 			lines.pop(current_line)
 		else:
-			lines[current_line] = lines[current_line].replace("^", "main-0:")
+			lines[current_line] = lines[current_line].replace("^", "main-0*")
 			for constant in constants.keys():
 				lines[current_line] = lines[current_line].replace(constant, constants[constant])
 			current_line += 1
