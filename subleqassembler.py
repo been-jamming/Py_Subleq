@@ -116,7 +116,7 @@ def assemble(lines, inline):
 
 if __name__ == "__main__":
 	if len(sys.argv) < 2:
-		print "Error: no file name given"
+		print("Error: no file name given")
 		exit()
 	if len(sys.argv) > 2:
 		if len(sys.argv) == 3:
@@ -125,7 +125,7 @@ if __name__ == "__main__":
 			text = "Error: unknown arguments"
 		for i in range(len(sys.argv) - 2):
 			text += " " + sys.argv[i + 2] + ","
-		print text[:-1]
+		print(text[:-1])
 		exit()
 	file_name = sys.argv[1]
 	with open(file_name, "r") as f:
